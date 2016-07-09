@@ -1,1 +1,2 @@
-The Java Asciigame library was created in 2016 for j-rogue112, where it is currently implemented.
+The Java Asciigame library was created in 2016 for j-rogue112, where it is currently used.
+DISCLAIMER: The Java Asciigame library is, as of 2016, incomplete, because the standard input modification functions are written in C.
