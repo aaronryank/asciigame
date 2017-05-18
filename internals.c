@@ -117,8 +117,6 @@ ASCIIGAME_INTERNAL_DEF(int,player,reprint) (void)
         return 1;
     }
     return 0;
-    /* return ASCIIGAME_INTERNAL(screen,putcharat)(player.x,player.y,player.icon); */
-    /* that was easy. */
 }
 
 ASCIIGAME_INTERNAL_DEF(int,player,move) (int x, int y)
@@ -126,6 +124,26 @@ ASCIIGAME_INTERNAL_DEF(int,player,move) (int x, int y)
     player.x = x;
     player.y = y;
     return ASCIIGAME_INTERNAL(player,reprint)();
+}
+
+/**************************************************
+ * NPCs
+ **************************************************/
+
+ASCIIGAME_INTERNAL_DEF(int,npc,reprint) (void)
+{
+    if (ASCIIGAME_INTERNAL(cursor,set)(npc[active_npc].x,npc[active_npc].y)) {
+        printf("%s%c\e[0m",npc[active_npc].color,npc[active_npc].icon);
+        return 1;
+    }
+    return 0;
+}
+
+ASCIIGAME_INTERNAL_DEF(int,npc,move) (int x, int y)
+{
+    npc[active_npc].x = x;
+    npc[active_npc].y = y;
+    return ASCIIGAME_INTERNAL(npc,reprint)();
 }
 
 /**************************************************

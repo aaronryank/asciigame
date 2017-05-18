@@ -102,6 +102,17 @@ struct __asciigame_character {
     int (*move)(int x, int y);
 };
 
+struct __asciigame_npc {
+    int x, y;
+    int hit, def, atk;
+    int str, cha, intl;
+    int gold, lives, invisible;
+    char *color, icon;
+    struct __asciigame_inventory loot;
+    int (*reprint)(void);
+    int (*move)(int x, int y);
+};
+
 struct __asciigame_map {
     char coord[ASCIIGAME_MAP_ROWS][ASCIIGAME_MAP_COLS];
     void (*reprint)(void);
@@ -132,10 +143,12 @@ extern struct __asciigame_          asciigame;
 extern struct __asciigame_screen    screen;
 extern struct __asciigame_cursor    cursor;
 extern struct __asciigame_character player;    /* player */
-extern struct __asciigame_character npc[1000]; /* NPCs   */
+extern struct __asciigame_npc       npc[1000]; /* NPCs   */
 extern struct __asciigame_map       map;
 extern struct __asciigame_map       places;
 extern struct __asciigame_map       items;
+
+extern int active_npc;
 
 extern colormap asciigame_default_colormap[200];    /* default colors for various characters */
 
@@ -155,17 +168,21 @@ ASCIIGAME_INTERNAL_DEF(int,screen,printat)  (int x, int y, char *s);  /* print s
 ASCIIGAME_INTERNAL_DEF(int,screen,putcharat)(int x, int y, char c);   /* print c at position (x,y) on the screen */
 
 /* CURSOR */
-ASCIIGAME_INTERNAL_DEF(int,cursor,set)      (int x, int y);   /* set the cursor to the specified position */
-ASCIIGAME_INTERNAL_DEF(void,cursor,home)    (void);           /* set the cursor to (1,1) */
+ASCIIGAME_INTERNAL_DEF(int,cursor,set)   (int x, int y);   /* set the cursor to the specified position */
+ASCIIGAME_INTERNAL_DEF(void,cursor,home) (void);           /* set the cursor to (1,1) */
 
 /* PLAYER */
-ASCIIGAME_INTERNAL_DEF(int,player,reprint)  (void);           /* reprint the character */
-ASCIIGAME_INTERNAL_DEF(int,player,move)     (int x, int y);   /* move the character to {x,y} */
+ASCIIGAME_INTERNAL_DEF(int,player,reprint) (void);           /* reprint the character */
+ASCIIGAME_INTERNAL_DEF(int,player,move)    (int x, int y);   /* move the character to {x,y} */
+
+/* NPCs */
+ASCIIGAME_INTERNAL_DEF(int,npc,reprint) (void);           /* reprint active NPC */
+ASCIIGAME_INTERNAL_DEF(int,npc,move)    (int x, int y);   /* move active NPC */
 
 /* MAPS */
-ASCIIGAME_INTERNAL_DEF(void,map,reprint)     (void);           /* reprint... the... map */
-ASCIIGAME_INTERNAL_DEF(void,places,reprint)  (void);           /* reprint places */
-ASCIIGAME_INTERNAL_DEF(void,items,reprint)   (void);           /* reprint items */
-ASCIIGAME_INTERNAL_DEF(int,map,load)         (char *filename); /* load filename into map */
-ASCIIGAME_INTERNAL_DEF(int,places,load)      (char *filename); /* load filename into places */
-ASCIIGAME_INTERNAL_DEF(int,items,load)       (char *filename); /* load filename into items */
+ASCIIGAME_INTERNAL_DEF(void,map,reprint)    (void);           /* reprint... the... map */
+ASCIIGAME_INTERNAL_DEF(void,places,reprint) (void);           /* reprint places */
+ASCIIGAME_INTERNAL_DEF(void,items,reprint)  (void);           /* reprint items */
+ASCIIGAME_INTERNAL_DEF(int,map,load)        (char *filename); /* load filename into map */
+ASCIIGAME_INTERNAL_DEF(int,places,load)     (char *filename); /* load filename into places */
+ASCIIGAME_INTERNAL_DEF(int,items,load)      (char *filename); /* load filename into items */

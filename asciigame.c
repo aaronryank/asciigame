@@ -7,11 +7,14 @@ colormap asciigame_default_colormap[200] = {
     {'@',FG_RED},
     {'#',FG_YELLOW},
     {'.',FG_YELLOW},
-    {'"',FG_YELLOW},
+    {'"',ATTR_BOLD FG_YELLOW},
+    {'$',ATTR_BOLD FG_YELLOW},
+    {'=',ATTR_BOLD FG_YELLOW},
     {'{',FG_CYAN},
     {'}',FG_CYAN},
     {';',FG_RED},
     {':',FG_RED},
+    {'^',FG_RED},
     {'~',FG_BLUE},
     {'<',ATTR_BOLD},
     {'>',ATTR_BOLD},
@@ -24,8 +27,10 @@ struct __asciigame_ asciigame = {0};
 struct __asciigame_cursor cursor = {0};
 struct __asciigame_screen screen = {0};
 
-struct __asciigame_character player    = {0};
-struct __asciigame_character npc[1000] = {0};
+struct __asciigame_character player = {0};
+
+struct __asciigame_npc npc[1000] = {0};
+int active_npc = 0;
 
 struct __asciigame_map map    = {0};
 struct __asciigame_map places = {0};
@@ -50,7 +55,7 @@ void asciigame_init(void)
     cursor.home = ASCIIGAME_INTERNAL(cursor,home);
 
     /* initialize player */
-    player.icon    = '@';   /* and it should stay this way unless the programmer is a sadistic ASCIIgame hater */
+    player.icon    = '@';   /* and it should stay this way unless the programmer is a sadistic wacko */
     player.move    = ASCIIGAME_INTERNAL(player,move);
     player.reprint = ASCIIGAME_INTERNAL(player,reprint);
 
@@ -61,4 +66,10 @@ void asciigame_init(void)
     items.load     = ASCIIGAME_INTERNAL(items,load);
     places.reprint = ASCIIGAME_INTERNAL(places,reprint);
     places.load    = ASCIIGAME_INTERNAL(places,load);
+
+    int i;
+    for (i = 0; i < 1000; i++) {
+        npc[i].reprint = ASCIIGAME_INTERNAL(npc,reprint);
+        npc[i].move    = ASCIIGAME_INTERNAL(npc,move);
+    }
 }

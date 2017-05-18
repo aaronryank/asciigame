@@ -1,0 +1,5 @@
+*.o
+asciigame-test
+asciigame-test.exe
+asciigame.prj
+libasciigame.a
