@@ -125,7 +125,7 @@ struct __asciigame_map {
  */
 
 /**************************************************
- * EXTERNS AND DEFINITIONS
+ * EXTERNS AND DECLARATIONS
  **************************************************/
 
 extern struct __asciigame_          asciigame;
